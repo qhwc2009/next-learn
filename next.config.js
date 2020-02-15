@@ -51,18 +51,4 @@ if (typeof require !== 'undefined') {
   require.extensions['.css'] = file => {};
 }
 
-module.exports = withCss({
-  env: {
-    customKey: 'value own',
-  },
-  // 下面两个要通过 'next/config' 来读取
-  // 只有在服务端渲染时才会获取的配置
-  serverRuntimeConfig: {
-    mySecret: 'secret',
-    secondSecret: process.env.SECOND_SECRET,
-  },
-  // 在服务端渲染和客户端渲染都可获取的配置
-  publicRuntimeConfig: {
-    staticFolder: '/static',
-  },
-});
+module.exports = withCss({});
