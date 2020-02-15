@@ -1,8 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
+import styled from 'styled-components';
 
 import { Button } from 'antd';
+
+const Title = styled.h1`
+  color: yellow;
+  font-size: 40px;
+`;
 
 export default function index() {
   const handlePushToPageB = () => {
@@ -20,6 +26,7 @@ export default function index() {
     <>
       <div>
         Hello World
+        <Title>This is Title</Title>
         <div>
           <Button onClick={handlePushToPageB}>To B 2</Button>
         </div>
