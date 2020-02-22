@@ -9,7 +9,7 @@ export default function Layout({ children }) {
         <Link href="/">
           <Button>To Home</Button>
         </Link>
-        <Link href="/test/b?id=1" as="test/b/1">
+        <Link href="/test/b?id=1" as="/test/b/1">
           <Button>To B1</Button>
         </Link>
       </header>

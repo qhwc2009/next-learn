@@ -15,6 +15,11 @@ const initialState = {
   user: userInitialState,
 };
 
-const store = createStore(allReducer, initialState, composeWithDevTools(applyMiddleware(thunk)));
-
-export default store;
+export default function inirializeStore(state = {}) {
+  const store = createStore(
+    allReducer,
+    { ...initialState, ...state },
+    composeWithDevTools(applyMiddleware(thunk)),
+  );
+  return store;
+}

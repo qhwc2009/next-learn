@@ -1,12 +1,14 @@
 import App from 'next/app';
 import { Provider } from 'react-redux';
-import store from '../store/store';
 import Layout from '../components/Layout';
 import 'antd/dist/antd.css';
 
+import withRedux from '~/lib/withRedux';
+
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
+  static async getInitialProps(ctx) {
     // 必须要拿一下Component的getInitialProps 不然的话 组件的getInitialProps就不会生效
+    const { Component } = ctx;
     let pageProps;
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -15,10 +17,10 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
     return (
       <Layout>
-        <Provider store={store}>
+        <Provider store={reduxStore}>
           <Component {...pageProps} />
         </Provider>
       </Layout>
@@ -26,4 +28,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default withRedux(MyApp);
