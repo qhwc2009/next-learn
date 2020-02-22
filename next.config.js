@@ -1,4 +1,5 @@
 const withCss = require('@zeit/next-css');
+const path = require('path');
 
 const configs = {
   // 编译文件的输出目录
@@ -51,4 +52,9 @@ if (typeof require !== 'undefined') {
   require.extensions['.css'] = file => {};
 }
 
-module.exports = withCss({});
+module.exports = withCss({
+  webpack: config => {
+    config.resolve.alias['~'] = path.resolve(__dirname);
+    return config;
+  },
+});

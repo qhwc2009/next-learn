@@ -1,4 +1,6 @@
 import App from 'next/app';
+import { Provider } from 'react-redux';
+import store from '../store/store';
 import Layout from '../components/Layout';
 import 'antd/dist/antd.css';
 
@@ -16,7 +18,9 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Layout>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </Layout>
     );
   }
