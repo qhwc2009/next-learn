@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
 import styled from 'styled-components';
+import getConfig from 'next/config';
 
 import { Button } from 'antd';
+
+const { publicRuntimeConfig } = getConfig();
 
 const Title = styled.h1`
   color: yellow;
@@ -11,6 +15,10 @@ const Title = styled.h1`
 `;
 
 export default function index() {
+  useEffect(() => {
+    axios.get('/api/user/info').then(resp => console.log(resp));
+  }, []);
+
   const handlePushToPageB = () => {
     Router.push(
       {
@@ -34,6 +42,9 @@ export default function index() {
           <Link href="/test/b?id=1" as="/test/b/1">
             <span className="span1">To B 1</span>
           </Link>
+        </div>
+        <div>
+          <a href={publicRuntimeConfig.OAUTH_URL}>github 登录</a>
         </div>
       </div>
       <style jsx>{`

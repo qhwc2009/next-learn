@@ -4,6 +4,7 @@ const next = require('next');
 const session = require('koa-session');
 const RedisSessionStore = require('./server/session-store');
 const Redis = require('ioredis');
+const auth = require('./server/auth');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -27,23 +28,8 @@ app.prepare().then(() => {
 
   server.use(session(SESSION_CONFIG, server));
 
-  server.use(async (ctx, next) => {
-    // eslint-disable-next-line
-    console.log('ctx.session.user: ', ctx.session.user);
-    await next();
-  });
-
-  router.get('/set/user', async ctx => {
-    ctx.session.user = {
-      name: 'wang chen',
-      age: 18,
-    };
-    ctx.body = 'set session success';
-  });
-  router.get('/delete/user', async ctx => {
-    ctx.session = null;
-    ctx.body = 'delete session success';
-  });
+  // 配置处理github OAuth
+  auth(server);
 
   router.get('/test/b/:id', async ctx => {
     const id = ctx.params.id;
@@ -52,6 +38,17 @@ app.prepare().then(() => {
       query: { id },
     });
     ctx.respond = false;
+  });
+
+  router.get('/api/user/info', async ctx => {
+    const user = ctx.session.userInfo;
+    if (!user) {
+      ctx.status = 401;
+      ctx.body = 'Need Login';
+    } else {
+      ctx.body = user;
+      ctx.set('Content-Type', 'application/json');
+    }
   });
 
   server.use(router.routes());
